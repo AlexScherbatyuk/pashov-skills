@@ -5,70 +5,68 @@ description: Fast, focused security feedback on Solidity code while you develop 
 
 # Smart Contract Security Review
 
-Fast, simple, and effective security feedback while you're developing - the kind of check you run before committing, not after hiring an auditor. The goal is to catch real issues quickly so developers can fix them early, not to produce a formal audit report.
+Fast, focused security feedback while you're developing. Catch real issues early - before they reach an audit or mainnet.
 
-You have deep knowledge of Solidity, EVM internals, DeFi protocols, and common attack vectors. Apply that knowledge pragmatically: flag what matters, skip the noise.
+Before scanning any code, read the full attack vector reference:
+```
+references/attack-vectors.md
+```
+It contains 48 attack vectors with precise detection patterns and false-positive signals. Use it as your scanning checklist for every file.
 
 ## Mode Selection
 
-Determine which mode to run based on how the skill was invoked:
-
-- **Default** (no arguments): Audit only `.sol` files that appear in `git diff HEAD` (both staged and unstaged changes). Run `git diff HEAD --name-only` and filter for `.sol` files. If there are no changed Solidity files, tell the user and stop.
-- **ALL**: Audit the entire repository at its current state. Recursively find all `.sol` files (excluding `node_modules/`, `lib/`, `out/`, `.git/`).
-- **`$filename`** (a file path is given as argument): Audit that specific file only.
+- **Default** (no arguments): run `git diff HEAD --name-only`, filter for `.sol` files. Stop and say so if there are no changed Solidity files.
+- **ALL**: scan all `.sol` files in the repo (exclude `lib/`, `out/`, `node_modules/`, `.git/`).
+- **`$filename`**: scan that specific file only.
 
 ## Context Loading
 
-Before auditing, check the `assets/` directory of this skill for two optional inputs:
+Check the skill's `assets/` directory before scanning:
 
-**False positives** (`assets/false-positives.md`) - If this file exists, read it. It contains known non-issues specific to this codebase that a previous review flagged incorrectly. Do not report any finding that matches a described false positive. Acknowledge at the bottom of the report how many false positives were suppressed.
+- **`assets/false-positives.md`** - known non-issues for this codebase. Suppress any finding that matches. Note suppression count at the bottom of the report.
+- **`assets/findings/`** - prior audit reports. Use as context to avoid duplicating known issues. Mark previously known findings as such.
 
-**Previous findings** (`assets/findings/` or any `.md` files in `assets/`) - If prior audit reports exist here, read them for context. Use them to understand already-known issues, focus on new attack surface, and avoid duplicating findings the team is already aware of. Note in the report if a finding was previously known.
+## Review Process
 
-## Audit Checklist
+For each file in scope:
 
-Check for the full range of smart contract vulnerabilities, including but not limited to:
+1. Read the full file.
+2. Scan against all 48 vectors in `references/attack-vectors.md`. For each vector, check whether the detection pattern is present, then check the false-positive signals before deciding to report it.
+3. Only report findings where the detection pattern matches AND the false-positive conditions do not apply.
+4. Use judgment on severity - a theoretical issue in code that's demonstrably bounded is not a finding.
 
-- Reentrancy (single-function, cross-function, cross-contract, read-only)
-- Integer overflow/underflow (pre- and post-0.8.x)
-- Access control issues (missing `onlyOwner`, incorrect role checks, unprotected initializers)
-- Oracle manipulation and price feed attacks
-- Flash loan attack vectors
-- Front-running and MEV exposure
-- Denial of service (gas griefing, unbounded loops, block gas limit)
-- Incorrect use of `delegatecall` and storage collisions
-- Timestamp and block number dependence
-- Unsafe external calls and unchecked return values
-- Signature replay attacks
-- Precision loss and rounding errors in fixed-point arithmetic
-- Logic errors in reward distribution or accounting invariants
+Prioritize findings that are:
+- Directly exploitable with a concrete attack path
+- In functions handling value (ETH, tokens, governance power)
+- In code that was changed (in default mode)
 
 ## Output Format
 
 ```
-# Smart Contract Audit Report
+# Security Review
 
-## Executive Summary
-<2-4 sentences: overall risk rating (Critical / High / Medium / Low / Minimal), total finding counts by severity, mode used, files reviewed, and key takeaways>
+## Summary
+<1-3 sentences: severity distribution, files reviewed, most critical finding>
 
 ## Findings
 
-### [SEVERITY] Finding Title
-- **Contract:** <ContractName>
-- **Function:** <functionName> (line N) or N/A
-- **Description:** <what the issue is and why it is dangerous>
-- **Impact:** <what an attacker can achieve>
-- **Proof of Concept:** <minimal attack scenario or call sequence>
-- **Recommendation:** <concrete code-level fix>
+### [CRITICAL|HIGH|MEDIUM|LOW|INFO] Title
+- **Location:** ContractName.functionName (line N)
+- **Vector:** <vector name from attack-vectors.md>
+- **Issue:** <what is wrong and why it matters>
+- **Impact:** <what an attacker can do>
+- **PoC:** <minimal attack scenario - one paragraph, no full exploit code>
+- **Fix:** <concrete code-level recommendation>
 
-...repeat for each finding, ordered Critical → Informational...
-
-## Scope & Limitations
-<files reviewed, git commit or diff range if applicable, false positives suppressed (N), and any caveats>
+## Scope
+<files reviewed, mode, false positives suppressed (N)>
 ```
+
+Order findings Critical first. Omit severity levels that have no findings.
 
 ## Constraints
 
-- Do not fabricate findings. Only report issues genuinely present in the provided code.
-- Do not provide fully weaponized exploit code; a concise PoC scenario is sufficient.
-- If the input is incomplete or ambiguous, ask clarifying questions before auditing.
+- Do not report a finding unless you can point to a specific line or code pattern that triggers it.
+- Do not report theoretical issues that are structurally prevented by the codebase (check false-positive signals).
+- Never fabricate findings to appear thorough.
+- Keep PoC concise - attack scenario, not a full working exploit.
