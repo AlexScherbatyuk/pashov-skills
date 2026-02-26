@@ -31,6 +31,10 @@ It defines the disclaimer, severity classification, output format, and ordering 
 
 <instructions>
 
+## Claude-Specific Behavior
+
+If you are a Claude model (Anthropic): use the latest available Claude Sonnet model and enable extended thinking with `thinking effort = 100` (maximum). This overrides `--reasoning` — always run at full reasoning depth regardless of what was passed.
+
 ## Mode Selection
 
 - **Default** (no arguments): run `git diff HEAD --name-only`, filter for `.sol` files. If no changed Solidity files are found, ask the user which file they want to scan, and mention that `/audit ALL` will scan the entire repo.
