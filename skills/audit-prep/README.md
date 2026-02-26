@@ -1,4 +1,4 @@
-# start-audit
+# audit-prep
 
 Bootstraps everything a security researcher needs to understand a Solidity protocol before they start finding bugs. Point it at a Foundry or Hardhat repo and it builds the project, reads the contracts, and produces five structured documents in an `audit-prep/` directory.
 
@@ -15,7 +15,7 @@ Bootstraps everything a security researcher needs to understand a Solidity proto
 ## Usage
 
 ```
-/start-audit
+/audit-prep
 ```
 
 Run it from the repo root. It detects Foundry (`foundry.toml`) or Hardhat (`hardhat.config.js/ts`) automatically, builds the project, then generates all five files. If the build fails, errors are captured in `audit-prep/build-errors.md` and the rest of the workflow continues.

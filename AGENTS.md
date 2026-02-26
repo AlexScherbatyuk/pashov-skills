@@ -10,7 +10,7 @@ A community library of agent-agnostic AI skills. Each skill is a focused, self-c
 
 ```
 skills/
-├── start-audit/     # Smart contract security audit skill
+├── audit-prep/     # Smart contract security audit skill
 marketplace.json     # Plugin marketplace manifest
 AGENTS.md            # This file (read by all agents)
 CLAUDE.md            # Imports AGENTS.md for Claude Code

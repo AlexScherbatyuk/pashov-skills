@@ -1,5 +1,5 @@
 ---
-name: start-audit
+name: audit-prep
 description: This skill helps security researchers and auditors start an in-depth security review, understand the codebase and get up to speed fast. Use it when the user says "start an audit", "prep this repo for auditing", "audit setup", or shares a Solidity/Foundry/Hardhat codebase and wants to understand it before reviewing.
 ---
 
