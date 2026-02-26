@@ -5,9 +5,10 @@ description: Fast, focused security feedback on Solidity code while you develop 
 
 # Smart Contract Security Review
 
+<context>
 Fast, focused security feedback while you're developing. Catch real issues early - before they reach an audit or mainnet.
 
-Before scanning any code (only when `--max-run-time` is 300s or more), read the full attack vector reference:
+When `--max-run-time` is 300s or more, read the full attack vector reference before scanning:
 
 ```
 references/attack-vectors.md
@@ -22,6 +23,9 @@ references/report-formatting.md
 ```
 
 It defines the disclaimer, severity classification, output format, and ordering rules. Follow it exactly.
+</context>
+
+<instructions>
 
 ## Mode Selection
 
@@ -43,8 +47,6 @@ The default run time is **120 seconds**. Spend the budget doing your best work �
 If the budget is tight, rely on built-in knowledge of Solidity attack vectors instead of reading `references/attack-vectors.md`. At 300 seconds or more, read the full reference first — it sharpens detection across all 49 vectors.
 
 **Built-in high-yield vectors** (used when time is short): reentrancy (single, cross-function, read-only), missing/incorrect access control, unprotected initializer, oracle spot-price manipulation, flash loan price manipulation, unchecked arithmetic in value flows, msg.value reuse in loop/multicall, delegatecall to user-controlled address, signature replay, abi.encodePacked hash collision, price slippage (no min output).
-
----
 
 ## Confidence Scoring
 
@@ -92,14 +94,16 @@ Prioritize findings that are:
 - In functions handling value (ETH, tokens, governance power)
 - In code that was changed (in default mode)
 
-## Output Format
+</instructions>
 
-Follow `references/report-formatting.md` exactly. Summary: disclaimer first, then a findings table (number, severity, title), then detailed findings sections in the same order, then Scope. Severity levels: CRITICAL, HIGH, MEDIUM, LOW only — do not report INFO findings.
+<output_format>
+Follow `references/report-formatting.md` exactly. Disclaimer first, then a findings table (number, severity, title), then detailed findings sections in the same order, then Scope. Severity levels: CRITICAL, HIGH, MEDIUM, LOW only — do not report INFO findings.
+</output_format>
 
-## Constraints
-
+<constraints>
 - Do not report a finding unless you can point to a specific line or code pattern that triggers it.
 - Do not report theoretical issues that are structurally prevented by the codebase (check false-positive signals).
 - Never fabricate findings to appear thorough.
 - Do not report INFO findings. Minimum severity is LOW.
 - Always skip test files in every mode. Exclude any file whose path contains `test/`, `tests/`, `spec/`, or `__tests__/`, any file matching `*.t.sol`, and any file whose name starts with `Test` or ends with `Test.sol` or `Spec.sol`.
+</constraints>

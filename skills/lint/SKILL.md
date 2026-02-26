@@ -5,9 +5,13 @@ description: Lints and cleans Solidity code. Use whenever the user says "lint", 
 
 # Solidity Linter
 
+<context>
 Cleans up Solidity code by applying formatting, removing dead weight, adding missing documentation, and enforcing community best practices. The goal is code that is readable, consistent, and professional - without changing any logic.
 
 For the detailed rules behind each check, read `references/rules.md`.
+</context>
+
+<instructions>
 
 ## Workflow
 
@@ -149,8 +153,9 @@ Add missing NatSpec. Read `references/rules.md` § NatSpec for the full tag spec
 
 If a function has `@inheritdoc`, do not add other tags.
 
-### 4. Output Summary
+</instructions>
 
+<output_format>
 After all passes:
 
 ```
@@ -174,10 +179,11 @@ Changes made: M
 ### No changes needed
 - src/libraries/MathLib.sol
 ```
+</output_format>
 
-## Constraints
-
+<constraints>
 - Never change logic - only style and documentation
 - Never remove code that looks intentionally kept for storage layout in upgradeable contracts; flag it in the summary with a note instead
 - Respect `// solhint-disable` and `// forge-fmt:off` directives
 - Test files and scripts: apply import and formatting fixes, but skip NatSpec and error conversion unless explicitly asked
+</constraints>

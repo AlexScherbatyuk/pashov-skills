@@ -5,7 +5,11 @@ description: This skill helps security researchers and auditors start an in-dept
 
 # Start Audit
 
+<context>
 This skill helps security researchers and auditors start an in-depth security review, understand the codebase and get up to speed fast. It builds the project, maps the architecture, traces token flows, documents external integrations, and produces a threat model - all as separate Mermaid-enhanced markdown files ready to hand off to an auditor.
+</context>
+
+<instructions>
 
 ## Workflow
 
@@ -132,9 +136,9 @@ A structured threat model. Use this format:
 
 Derive scenarios from what the code actually does - don't pad with generic threats.
 
----
+</instructions>
 
-## Output
+<output_format>
 
 After generating all five files, print a summary:
 
@@ -153,9 +157,11 @@ Generated:
 [2-3 sentence snapshot of what the protocol does and the most notable things an auditor should focus on first]
 ```
 
-## Tips
+</output_format>
 
+<constraints>
 - Prefer reading actual code over guessing. If you're unsure what a function does, read it.
 - Mermaid diagrams should be accurate, not decorative. Only include nodes and edges that reflect real code relationships.
 - If the repo is large, prioritize core protocol contracts over periphery, scripts, and test helpers.
 - Flag anything unusual - weird patterns, commented-out code, TODOs, hardcoded addresses - in the protocol summary.
+</constraints>
