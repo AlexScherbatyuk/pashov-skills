@@ -42,15 +42,16 @@ Do not report INFO findings.
 
 ---
 
-<severity emoji> **1. [HIGH, N] <Title>**
+<severity emoji> **1. [HIGH] <Title>**
 
 **Location** `ContractName.functionName` · line N
+**Confidence** N
 **Description** <vector name — what is wrong and why it matters — what an attacker can do>
 **Mitigation** <concrete recommendation using text and inline code references, no fenced code blocks>
 
 ---
 
-<severity emoji> **2. [MEDIUM, N] <Title>**
+<severity emoji> **2. [MEDIUM] <Title>**
 ...
 
 ---
@@ -77,7 +78,7 @@ Do not report INFO findings.
 - Number findings sequentially; the number in the table matches the heading number.
 - Each severity level in the table gets its emoji. Each finding heading is preceded by its severity emoji on the same line.
 - Omit severity levels that have no findings.
-- Confidence score goes inside the severity brackets: `[HIGH, 91]`, `[MEDIUM, 78]`, etc.
+- Confidence score is a separate `**Confidence** N` field on its own line, between Location and Description. It is not included in the severity brackets.
 - Separate each finding with `---`.
 - Do not use fenced code blocks in Mitigation. Use prose with inline `code` references.
 - The disclaimer is always printed, even when there are no findings.
