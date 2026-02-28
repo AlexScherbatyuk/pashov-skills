@@ -19,7 +19,7 @@
 
 ## Install & Run
 
-Supports **VS Code** and **Cursor** via the Claude Code extension. Clone this repo, then copy the skill folder into Claude Code's commands directory.
+Works with Claude Code in **VS Code**, **Cursor**, and the terminal. Clone this repo, then copy the skill folder into Claude Code's commands directory.
 
 **Global** — available in every project:
 
