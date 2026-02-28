@@ -42,6 +42,12 @@ Do not report INFO findings.
 
 ---
 
+## Summary
+
+<1–2 sentences summarizing the overall security posture: number and severity of findings, the most critical risk areas identified, and the general quality of the codebase. Close with a recommendation that the development team address the reported findings and consider a formal security review before deployment.>
+
+---
+
 ## Findings
 
 | # | | Severity | Title |
@@ -102,6 +108,7 @@ Do not report INFO findings.
 - Separate each finding with `---`.
 - Fix must include a fenced diff code block showing the exact lines to change, followed by one sentence confirming the fix eliminates the attack path.
 - The disclaimer is always printed, even when there are no findings.
+- The Summary section appears between Scope and Findings. It is 1–2 sentences: state the number and severity breakdown of findings, highlight the most critical risk areas, and recommend that the team address the findings and pursue a formal security review before deployment. Keep the tone professional and direct — no hedging, no filler.
 - Scope is a two-column table immediately after the disclaimer, not a prose paragraph.
 - The "Confidence threshold" label always reads `Confidence threshold (1-100)`.
 - Suppressed findings appear at the end of the report as a `## Suppressed Findings` section rendered as a three-column table (`Confidence · Location · Description`), not as prose. One row per suppressed finding. Descriptions are one sentence: what the issue is and why it was suppressed.
