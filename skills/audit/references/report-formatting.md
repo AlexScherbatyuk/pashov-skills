@@ -55,8 +55,15 @@ Do not report INFO findings.
 **Description**
 <The vulnerable code pattern and why it is exploitable, in 1–2 sentences.>
 
-**Mitigation**
-<Concrete recommendation using text and inline code references, no fenced code blocks.>
+**Fix**
+<Concrete code change that resolves the vulnerability. Show exactly what to change as a diff:>
+
+```diff
+- vulnerable line(s)
++ fixed line(s)
+```
+
+<One sentence confirming the attack path no longer succeeds with this fix applied.>
 
 ---
 
@@ -88,9 +95,9 @@ Do not report INFO findings.
 - Each severity level in the table gets its emoji. Each finding heading is preceded by its severity emoji on the same line.
 - Omit severity levels that have no findings.
 - Location and Confidence are rendered as a two-column table immediately below the finding heading. Confidence is not included in the severity brackets.
-- Impact, Description, and Mitigation are each a bold label on its own line followed by the prose on the next line, with a blank line separating each section.
+- Impact, Description, and Fix are each a bold label on its own line followed by the content on the next line, with a blank line separating each section.
 - Separate each finding with `---`.
-- Do not use fenced code blocks in Mitigation. Use prose with inline `code` references.
+- Fix must include a fenced diff code block showing the exact lines to change, followed by one sentence confirming the fix eliminates the attack path.
 - The disclaimer is always printed, even when there are no findings.
 - Scope is a two-column table, not a prose paragraph.
 - The "Confidence threshold" label always reads `Confidence threshold (1-100)`.
