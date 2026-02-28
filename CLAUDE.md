@@ -13,7 +13,6 @@ skills/
 ├── audit/           # Security review of Solidity changes while you develop
 ├── audit-helper/    # Full audit prep for security researchers
 ├── lint/            # Solidity linter (NatSpec, naming, best practices)
-marketplace.json     # Plugin marketplace manifest
 CLAUDE.md            # This file (read by Claude Code)
 ```
 
@@ -23,4 +22,3 @@ CLAUDE.md            # This file (read by Claude Code)
 - No fabricated examples - outputs must reflect real model responses.
 - No secrets, API keys, or personal data.
 - Only list models in `model_compatibility` that have been tested.
-- Do not update `marketplace.json` without also moving or renaming the skill directory.
