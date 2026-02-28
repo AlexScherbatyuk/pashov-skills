@@ -44,11 +44,19 @@ Do not report INFO findings.
 
 <severity emoji> **1. [HIGH] <Title>**
 
-**Location** `ContractName.functionName` · line N
-**Confidence** N
-**Impact** <full sentence explaining what an attacker concretely achieves: who is affected, what they lose or gain, and what the worst-case outcome is — e.g. "An attacker can drain all ETH held by the contract in a single transaction, causing permanent loss of user funds with no recovery path.">
-**Description** <the vulnerable code pattern and why it is exploitable, in 1–2 sentences>
-**Mitigation** <concrete recommendation using text and inline code references, no fenced code blocks>
+| | |
+|---|---|
+| **Location** | `ContractName.functionName` · line N |
+| **Confidence** | N |
+
+**Impact**
+<Full sentence explaining what an attacker concretely achieves: who is affected, what they lose or gain, and what the worst-case outcome is — e.g. "An attacker can drain all ETH held by the contract in a single transaction, causing permanent loss of user funds with no recovery path.">
+
+**Description**
+<The vulnerable code pattern and why it is exploitable, in 1–2 sentences.>
+
+**Mitigation**
+<Concrete recommendation using text and inline code references, no fenced code blocks.>
 
 ---
 
@@ -79,7 +87,8 @@ Do not report INFO findings.
 - Number findings sequentially; the number in the table matches the heading number.
 - Each severity level in the table gets its emoji. Each finding heading is preceded by its severity emoji on the same line.
 - Omit severity levels that have no findings.
-- Confidence score is a separate `**Confidence** N` field on its own line, between Location and Description. It is not included in the severity brackets.
+- Location and Confidence are rendered as a two-column table immediately below the finding heading. Confidence is not included in the severity brackets.
+- Impact, Description, and Mitigation are each a bold label on its own line followed by the prose on the next line, with a blank line separating each section.
 - Separate each finding with `---`.
 - Do not use fenced code blocks in Mitigation. Use prose with inline `code` references.
 - The disclaimer is always printed, even when there are no findings.
