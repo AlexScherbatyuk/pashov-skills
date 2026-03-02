@@ -1,6 +1,6 @@
 # Attack Vectors Reference (2/3 — Vectors 46–89)
 
-133 total attack vectors. For each: detection pattern and false-positive signals.
+126 total attack vectors. For each: detection pattern and false-positive signals.
 
 ---
 
@@ -73,8 +73,8 @@
 
 **59. Uninitialized Implementation Takeover**
 
-- **D:** Implementation has `initialize()` but constructor lacks `_disableInitializers()`. Anyone calls `initialize()` on implementation directly, claims ownership. Ref: Wormhole (2022), Parity (2017).
-- **FP:** Constructor calls `_disableInitializers()`. OZ `Initializable` correctly gates the function.
+- **D:** Implementation behind proxy has `initialize()` but constructor lacks `_disableInitializers()`. Attacker calls `initialize()` on implementation directly, becomes owner, can upgrade to malicious contract. Ref: Wormhole (2022), Parity (2017).
+- **FP:** Constructor contains `_disableInitializers()`. OZ `Initializable` correctly gates the function. Not behind a proxy (standalone).
 
 **60. Cross-Function Reentrancy**
 
@@ -84,7 +84,7 @@
 **61. Flash Loan Governance Attack**
 
 - **D:** Voting uses `token.balanceOf(msg.sender)` or `getPastVotes(account, block.number)` (current block). Borrow tokens, vote, repay in one tx.
-- **FP:** `getPastVotes(account, block.number - 1)` used. Timelock between snapshot and vote. Staking required.
+- **FP:** `getPastVotes(account, block.number - 1)` used. Timelock between snapshot and vote.
 
 **62. Paymaster Gas Penalty Undercalculation**
 
@@ -105,16 +105,6 @@
 
 - **D:** `require(token.transfer(to, amount))` reverts on tokens returning nothing (USDT, BNB). Or return value ignored (silent failure).
 - **FP:** OZ `SafeERC20.safeTransfer()`/`safeTransferFrom()` used throughout.
-
-**66. Force-Feeding ETH via selfdestruct or coinbase**
-
-- **D:** Logic relies on `address(this).balance` for invariants, share accounting, or as denominator. ETH force-sendable via `selfdestruct`, pre-deployment funding, or coinbase assignment.
-- **FP:** Accounting uses private `uint256 _deposited` incremented only in payable functions. `address(this).balance` only in view functions.
-
-**67. `selfdestruct` via Delegatecall Bricking**
-
-- **D:** Implementation contains `selfdestruct` or allows `delegatecall` to arbitrary address that may. Attacker gaining execution context can brick proxy. Post-Dencun (EIP-6780) mitigates but doesn't eliminate. Ref: Parity (2017), Wormhole (2022).
-- **FP:** No `selfdestruct` in implementation or delegatecall targets. `_disableInitializers()` in constructor.
 
 ---
 

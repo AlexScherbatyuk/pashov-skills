@@ -1,6 +1,6 @@
-# Attack Vectors Reference (3/3 — Vectors 90–133)
+# Attack Vectors Reference (3/3 — Vectors 90–132)
 
-133 total attack vectors. For each: detection pattern and false-positive signals.
+126 total attack vectors. For each: detection pattern and false-positive signals.
 
 ---
 
@@ -19,15 +19,10 @@
 - **D:** Implementation exposes `delegatecall` to user-supplied address without restriction. Pattern: `target.delegatecall(data)` where `target` is caller-controlled. Ref: Furucombo (2021).
 - **FP:** Target is hardcoded immutable address. Whitelist of approved targets enforced. `call` used instead.
 
-**93. ERC721 transferFrom with Unvalidated `from` Parameter**
+**93. Counterfactual Wallet Initialization Parameters Not Bound to Deployed Address**
 
-- **D:** Custom `transferFrom` checks `isApprovedOrOwner(msg.sender, tokenId)` but not `from == ownerOf(tokenId)`. Operator can pass fabricated `from`.
-- **FP:** `super.transferFrom()` or OZ `_transfer` called (checks `from == ownerOf`). Custom override includes explicit `require(ownerOf(tokenId) == from)`.
-
-**94. CREATE2 Address Reuse After selfdestruct**
-
-- **D:** Protocol trusts a CREATE2-deployed contract address. User-controlled salt + `selfdestruct` allows redeploy with malicious code to same address, inheriting stored approvals/whitelist entries.
-- **FP:** Post-Dencun (EIP-6780): `selfdestruct` no longer destroys code except in creation tx. Bytecode hash recorded at approval time and re-verified. No user-controlled CREATE2 salt.
+- **D:** Factory `createAccount` uses CREATE2 but salt doesn't incorporate all init params (especially owner). Attacker calls `createAccount` with different owner, deploying wallet they control to same counterfactual address.
+- **FP:** Salt derived from all init params: `salt = keccak256(abi.encodePacked(owner, ...))`. Factory reverts if account exists. Initializer called atomically with deployment.
 
 **95. Chainlink Staleness / No Validity Checks**
 
@@ -43,11 +38,6 @@
 
 - **D:** Swap/deposit/withdrawal with `minAmountOut = 0`, or `minAmountOut` computed on-chain from current pool state.
 - **FP:** `minAmountOut` set off-chain by user and validated on-chain.
-
-**98. Missing Input Validation on Critical Setters**
-
-- **D:** Admin setters with no bounds: `setFee(uint256 fee)` without `require(fee <= MAX_FEE)`. `setOracle(address)` with no interface check.
-- **FP:** Every setter has explicit `require` bounds. Numeric parameters validated against protocol constants.
 
 **99. abi.encodePacked Hash Collision with Dynamic Types**
 
@@ -81,8 +71,8 @@
 
 **105. Missing Storage Gap in Upgradeable Base Contract**
 
-- **D:** Upgradeable base contract lacks `uint256[N] private __gap;`. Adding state variables in future version shifts derived contract storage layout.
-- **FP:** EIP-1967 namespaced storage used. Single-contract (non-inherited) implementation.
+- **D:** Inherited upgradeable base has no `uint256[N] private __gap;`. Adding state variables in a future version shifts all derived contracts' storage slots.
+- **FP:** EIP-7201 / EIP-1967 namespaced storage used. `__gap` present and correctly sized. Single non-inherited contract.
 
 **106. Non-Atomic Multi-Contract Deployment (Partial System Bootstrap)**
 
@@ -120,11 +110,6 @@
 
 - **D:** `validateUserOp`/`validatePaymasterUserOp` references `block.timestamp`, `block.number`, `block.coinbase`, `block.prevrandao`, `block.basefee`. Per ERC-7562, banned in validation — values differ between simulation and execution.
 - **FP:** Banned opcodes only in execution phase (`execute`/`executeBatch`). Entity is staked under ERC-7562 reputation system.
-
-**113. Missing `__gap` in Upgradeable Base Contracts**
-
-- **D:** Inherited upgradeable base has no `uint256[N] private __gap;`. Adding state in V2 shifts all derived contracts' storage slots.
-- **FP:** EIP-7201 namespaced storage used. `__gap` present and correctly sized. Single non-inherited contract.
 
 **114. Paymaster ERC-20 Payment Deferred to postOp Without Pre-Validation**
 
@@ -168,11 +153,6 @@
 
 ---
 
-**122. setApprovalForAll Grants Permanent Unlimited Operator Access**
-
-- **D:** Protocol requires `setApprovalForAll(protocol, true)` for staking/escrow. Grants irrevocable, time-unlimited control over all current+future tokens. Compromised operator drains all approved users.
-- **FP:** Per-token `approve(address(this), tokenId)` used instead. Operator is immutable non-upgradeable contract.
-
 **123. Griefing via Dust Deposits Resetting Timelocks or Cooldowns**
 
 - **D:** Timelock/cooldown resets on any deposit with no minimum: `lastActionTime[user] = block.timestamp` inside `deposit(uint256 amount)` without `require(amount >= MIN)`. Attacker calls `deposit(1)` to reset victim's lock indefinitely.
@@ -192,11 +172,6 @@
 
 - **D:** `withdraw(assets, receiver, owner)` / `redeem(shares, receiver, owner)` where `msg.sender != owner` but no allowance check/decrement before burning shares. Any address can burn arbitrary owner's shares.
 - **FP:** `_spendAllowance(owner, caller, shares)` called unconditionally when `caller != owner`. OZ ERC4626 without custom overrides.
-
-**127. Missing `_disableInitializers()` on Implementation Contract**
-
-- **D:** Implementation behind proxy has no `_disableInitializers()` in constructor. Attacker calls `initialize()` on implementation directly, becomes owner, upgrades to malicious contract. Ref: Wormhole (2022).
-- **FP:** Constructor contains `_disableInitializers()`. Not behind a proxy (standalone).
 
 **128. validateUserOp Missing EntryPoint Caller Restriction**
 
@@ -222,8 +197,3 @@
 
 - **D:** Deployer EOA retains owner/admin/minter/pauser/upgrader after deployment script completes. Pattern: `Ownable` sets `owner = msg.sender` with no `transferOwnership()`. `AccessControl` grants `DEFAULT_ADMIN_ROLE` to deployer with no `renounceRole()`.
 - **FP:** Script includes `transferOwnership(multisig)`. Admin role granted to timelock/governance, deployer renounces. `Ownable2Step` with pending owner set to multisig.
-
-**133. Counterfactual Wallet Initialization Parameters Not Bound to Deployed Address**
-
-- **D:** Factory `createAccount` uses CREATE2 but salt doesn't incorporate all init params (especially owner). Attacker calls `createAccount` with different owner, deploying wallet they control to same counterfactual address.
-- **FP:** Salt derived from all init params: `salt = keccak256(abi.encodePacked(owner, ...))`. Factory reverts if account exists. Initializer called atomically with deployment.
