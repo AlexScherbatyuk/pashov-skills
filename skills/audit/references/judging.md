@@ -20,7 +20,7 @@ Confidence measures certainty that the finding is real and exploitable — not h
 - Attack path is partial (general idea is sound but cannot write exact caller → call → state change → outcome) → **-25**.
 - Impact is self-contained (only affects the attacker's own funds, no spillover to other users) → **-15**.
 
-Confidence indicator: 🔴 above 90 · 🟡 75–90 · 🔵 below 75.
+Confidence indicator: `[score]` (e.g., `[95]`, `[75]`, `[60]`).
 
 Findings below the confidence threshold (default 75) are still included in the report table but do not get a **Fix** section — description only.
 
