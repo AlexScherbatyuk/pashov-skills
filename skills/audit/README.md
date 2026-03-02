@@ -40,8 +40,3 @@ In deep mode, a fifth agent (Opus) reasons adversarially from first principles �
 Most runs complete in 3–5 minutes. Wall-clock is determined by the slowest agent, not the sum of all agents.
 
 Expect ~100k–250k tokens depending on scope (200–2,000 lines of Solidity). DEEP mode adds ~25-30% on top. Token spend scales with the number of in-scope files — each scanning agent reads every file, so a single-file review will use significantly fewer tokens.
-
-Estimated API cost at current Anthropic pricing (~70% input / 30% output):
-
-- **Default mode**: ~$0.65 (small) to ~$1.65 (large)
-- **DEEP mode**: ~$1.30 (small) to ~$3.30 (large)
