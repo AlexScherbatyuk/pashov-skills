@@ -1,12 +1,14 @@
 # Solidity Auditor
 
-A security agent with a simple mission — never let "stupid" vulnerabilities make it to your audit report.
+A security agent with a simple mission - findings in minutes, not weeks.
 
-## What it does
+Built for:
 
-Parallel subagents scan your contracts against a curated list of attack vectors. **Deep mode** adds an adversarial agent that reasons from first principles to find what the checklist misses.
+- **Solidity devs** who want a security check before every commit
+- **Security researchers** looking for fast wins before a manual review
+- **Just about anyone** who wants an extra pair of eyes.
 
-Built for **Solidity devs** who want a security check before every commit, **security researchers** looking for fast wins before a manual review, and **just about anyone** who wants an extra pair of eyes. Not a substitute for a formal audit - but the check you should never skip.
+Not a substitute for a formal audit - but the check you should never skip.
 
 ## Demo
 
