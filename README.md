@@ -13,10 +13,10 @@ Works with Claude Code in **VS Code**, **Cursor**, and the terminal. Clone this 
 
 ```bash
 git clone https://github.com/pashov/skills.git
-cp -r skills/<skill-name> ~/.claude/commands/<skill-name>
+cp -r skills/solidity-auditor ~/.claude/commands/solidity-auditor
 ```
 
-The skill is then invocable as `/<skill-name>` (e.g., `/solidity-auditor`).
+The skill is then invocable as `/solidity-auditor`.
 
 > **Tip:** Open a second terminal on the side, run the skill there, and keep coding in your main terminal.
 
@@ -24,8 +24,8 @@ The skill is then invocable as `/<skill-name>` (e.g., `/solidity-auditor`).
 
 ## Skills
 
-| Skill                                        | Description                                                                     |
-| -------------------------------------------- | ------------------------------------------------------------------------------- |
+| Skill                                 | Description                                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------------- |
 | [solidity-auditor](solidity-auditor/) | Fast (typically <5 min) security feedback on Solidity changes while you develop |
 
 ---
