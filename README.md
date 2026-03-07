@@ -9,10 +9,18 @@
 
 ## Install & Run
 
-Works with the **Claude Code CLI**, the **VS Code Claude extension**, and **Cursor**. Run the following in your terminal:
+Works with the **Claude Code CLI**, the **VS Code Claude extension**, and **Cursor**.
+
+**Claude Code CLI:**
 
 ```bash
 git clone https://github.com/pashov/skills.git && mkdir -p ~/.claude/commands && cp -r skills/solidity-auditor ~/.claude/commands/solidity-auditor
+```
+
+**Cursor:**
+
+```bash
+git clone https://github.com/pashov/skills.git && mkdir -p ~/.cursor/skills && cp -r skills/solidity-auditor ~/.cursor/skills/solidity-auditor
 ```
 
 The skill is then invocable as `/solidity-auditor`. See the [skill README](solidity-auditor/README.md) for usage.
@@ -20,7 +28,11 @@ The skill is then invocable as `/solidity-auditor`. See the [skill README](solid
 **Update to latest:** `cd` into the cloned `skills` repo and run:
 
 ```bash
-git pull && cp -r solidity-auditor ~/.claude/commands/solidity-auditor
+git pull
+# Claude Code CLI:
+cp -r solidity-auditor ~/.claude/commands/solidity-auditor
+# Cursor:
+cp -r solidity-auditor ~/.cursor/skills/solidity-auditor
 ```
 
 ---
