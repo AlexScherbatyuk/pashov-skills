@@ -36,7 +36,7 @@ update skills to latest version
 | Skill                                 | Description                                                                     |
 | ------------------------------------- | ------------------------------------------------------------------------------- |
 | [fizz](fizz/)                         | Generate a full Echidna/Medusa fuzz suite for any Foundry or Hardhat project    |
-| [solidity-auditor](solidity-auditor/) | Fast (typically <5 min) security feedback on Solidity changes while you develop |
+| [solidity-auditor](solidity-auditor/) | Solidity AI security audit - hundreds of Critical/High vulnerabilities found    |
 | [x-ray](x-ray/)                       | Pre-audit scan with threat model, invariants, entry points, and git analysis    |
 
 ---
